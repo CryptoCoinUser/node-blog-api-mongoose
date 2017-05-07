@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-
+//const jsonParser = bodyParser.json();
+router.use(bodyParser.json());
 const {BlogPosts} = require('./models');
 
 /********** GET ****************/
@@ -65,7 +65,7 @@ it should return the new post (using the same key/value pairs as the posts retur
 
 */
 
-router.post('/', jsonParser, (req, res) => {
+router.post('/', (req, res) => {
   console.log("POST " + req.body);
   const requiredFields = ['title', 'content', 'author'];
   for (let i=0; i<requiredFields.length; i++) {
@@ -108,7 +108,7 @@ it should return the updated object, with a 201 status code.
 
 router.put('/:id', (req, res) => {
   // ensure that the id in the request path and the one in request body match
-  console.log("PUT " + req.body);
+  console.log(req);
   if (req.params.id !== req.body.id) {
     const message = (
       `Request path id (${req.params.id}) and request body id (${req.body.id}) must match`);
